@@ -5,10 +5,7 @@ function LottoGame() {
   const [lottoCnt, setLottoCnt] = useState(0);
   const [lottoNumber, setLottoNumber] = useState([]);
   const [nextId, setNextId] = useState(1);
-
-  const onChangeMoney = (e) => {
-    setMoney(e.target.value);
-  };
+  const [visible, setVisible] = useState(false);
 
   const onClick = (e) => {
     const calcCnt = Math.floor(inputMoney / 1000);
@@ -47,6 +44,9 @@ function LottoGame() {
       setNextId(nextId + 1);
     }
   };
+  const onChangeMoney = (e) => {
+    setMoney(e.target.value);
+  };
 
   return (
     <div>
@@ -66,14 +66,22 @@ function LottoGame() {
       발급 개수: {lottoCnt}개
       <br />
       구매한 로또 내역
+      <button
+        onClick={() => {
+          setVisible(!visible);
+        }}
+      >
+        {visible ? "숨기기" : "보이기"}
+      </button>
       <div>
-        {lottoNumber.map((lottoNum) => (
-          <li key={lottoNum.id}>
-            {lottoNum.id}나열
-            {lottoNum.numbers[0]} {lottoNum.numbers[1]} {lottoNum.numbers[2]}{" "}
-            {lottoNum.numbers[3]} {lottoNum.numbers[4]} {lottoNum.numbers[5]}
-          </li>
-        ))}
+        {visible &&
+          lottoNumber.map((lottoNum) => (
+            <li key={lottoNum.id}>
+              {lottoNum.id}나열
+              {lottoNum.numbers[0]} {lottoNum.numbers[1]} {lottoNum.numbers[2]}{" "}
+              {lottoNum.numbers[3]} {lottoNum.numbers[4]} {lottoNum.numbers[5]}
+            </li>
+          ))}
       </div>
       <br />
       <br />
