@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function LottoGame() {
   const [inputMoney, setMoney] = useState("");
@@ -7,11 +7,15 @@ function LottoGame() {
   const [answerNumber, setAnswerNumber] = useState([]);
   const [nextId, setNextId] = useState(1);
   const [visible, setVisible] = useState(false);
+  const [sameCount, setSameCount] = useState(0);
+
+  useEffect(() => {
+    rank();
+  }, [answerNumber]);
 
   const onClick = (e) => {
     const calcCnt = Math.floor(inputMoney / 1000);
     setLottoCnt(() => calcCnt, userNumbers(calcCnt));
-    setAnswerNumber(makeRandomNumbers());
     setMoney("");
 
     e.target.disabled = true;
@@ -54,6 +58,39 @@ function LottoGame() {
     setMoney(e.target.value);
   };
 
+  const resultClick = () => {
+    setAnswerNumber(makeRandomNumbers());
+  };
+
+  const rank = () => {
+    for (let k = 0; k < lottoCnt; k++) {
+      for (let i = 0; i < 6; i++) {
+        console.log(lottoNumber[k].numbers[i]);
+        console.log(answerNumber[i]);
+        console.log("-----");
+        if (lottoNumber[k].numbers[i] === answerNumber[i]) {
+          console.log(answerNumber[i] + "가 일치");
+          setSameCount((cnt) => cnt + 1);
+        }
+      }
+    }
+  };
+  const winningAmount = () => {
+    let amount = 0;
+    if (sameCount === 6) {
+      amount = 1513274790;
+    } else if (sameCount === 5) {
+      amount = 60229843;
+      // } else if (sameCount === 5) {
+      //   amount = 1371186;
+    } else if (sameCount === 4) {
+      amount = 50000;
+    } else if (sameCount === 3) {
+      amount = 5000;
+    }
+    return amount;
+  };
+
   return (
     <div>
       로또
@@ -90,7 +127,24 @@ function LottoGame() {
           ))}
       </div>
       <br />
-      <button>결과 확인하기</button>
+      <button onClick={resultClick}>당첨번호 확인하기</button>
+      <ul>
+        {answerNumber.map((number) => (
+          <li key={number}>{number}</li>
+        ))}
+      </ul>
+      <div>일치개수: {sameCount}개</div>
+      <div>당첨금액: {winningAmount()}원</div>
+      <br />
+      로또 당첨 금액 <br />
+      1등: 1,513,274,790원 당첨번호 6개 일치
+      <br />
+      2등: 60,229,843원 당첨번호 5개 일치 + 보너스숫자 일치 <br />
+      3등: 1,371,186원 당첨번호 5개 일치 <br />
+      4등: 50,000원 당첨번호 4개 일치 <br />
+      5등: 5,000원 당첨번호 3개 일치 <br />
+      꽝: 당첨번호 3개 미만 일치
+      <br />
     </div>
   );
 }
