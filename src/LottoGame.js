@@ -90,6 +90,9 @@ function LottoGame() {
     }
     return amount;
   };
+  const resetLotto = () => {
+    window.location.reload();
+  };
 
   return (
     <div>
@@ -109,6 +112,7 @@ function LottoGame() {
       발급 개수: {lottoCnt}개
       <br />
       구매한 로또 내역
+      <br />
       <button
         onClick={() => {
           setVisible(!visible);
@@ -145,6 +149,7 @@ function LottoGame() {
       5등: 5,000원 당첨번호 3개 일치 <br />
       꽝: 당첨번호 3개 미만 일치
       <br />
+      <button onClick={resetLotto}>재시작</button>
     </div>
   );
 }
