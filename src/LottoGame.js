@@ -4,36 +4,41 @@ function LottoGame() {
   const [inputMoney, setMoney] = useState("");
   const [lottoCnt, setLottoCnt] = useState(0);
   const [lottoNumber, setLottoNumber] = useState([]);
+  const [answerNumber, setAnswerNumber] = useState([]);
   const [nextId, setNextId] = useState(1);
   const [visible, setVisible] = useState(false);
 
   const onClick = (e) => {
     const calcCnt = Math.floor(inputMoney / 1000);
-    setLottoCnt(() => calcCnt, randomNumbers(calcCnt));
+    setLottoCnt(() => calcCnt, userNumbers(calcCnt));
+    setAnswerNumber(makeRandomNumbers());
     setMoney("");
 
     e.target.disabled = true;
     e.target.innerHTML = "발급완료";
   };
 
-  const randomNumbers = (cnt) => {
-    for (let k = 0; k < cnt; k++) {
-      let flag = true;
-      let number = [];
-
-      while (flag) {
-        number = [];
-        for (let i = 0; i < 6; i++) {
-          number.push(Math.floor(Math.random() * 45 + 1));
-          console.log(number[i]);
-        }
-        const set = new Set(number);
-        if (number.length === set.size) {
-          flag = false;
-        }
-        console.log(flag);
+  const makeRandomNumbers = () => {
+    let number = [];
+    let flag = true;
+    while (flag) {
+      number = [];
+      for (let i = 0; i < 6; i++) {
+        number.push(Math.floor(Math.random() * 45 + 1));
+        console.log(number[i]);
       }
+      const set = new Set(number);
+      if (number.length === set.size) {
+        flag = false;
+      }
+      console.log(flag);
+    }
+    return number;
+  };
 
+  const userNumbers = (cnt) => {
+    for (let k = 0; k < cnt; k++) {
+      let number = makeRandomNumbers();
       const nextLottoNumber = lottoNumber.concat({
         id: nextId,
         numbers: number,
@@ -44,6 +49,7 @@ function LottoGame() {
       setNextId(nextId + 1);
     }
   };
+
   const onChangeMoney = (e) => {
     setMoney(e.target.value);
   };
@@ -84,9 +90,7 @@ function LottoGame() {
           ))}
       </div>
       <br />
-      <br />
-      결과 확인하기
-      <br />
+      <button>결과 확인하기</button>
     </div>
   );
 }
