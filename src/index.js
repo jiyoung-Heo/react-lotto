@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import LottoGame from "./components/LottoGame";
+import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <LottoGame />
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

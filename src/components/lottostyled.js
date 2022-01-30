@@ -1,28 +1,26 @@
 import styled from "styled-components";
 
-export const LottoDetailListUl = styled.ul`
-  display: flex;
+export const LottoDetailListUl = styled.div`
+  display: inline-block;
   flex-direction: column;
   margin-top: 1.2rem;
   padding: 0.6rem;
-  max-height: 200px;
-  overflow-y: auto;
   border: 0.5px solid #e9e2e2;
   border-radius: 5px;
-`;
-export const LottoAnswerListUl = styled.ul`
-  display: flex;
-  flex-direction: column;
-  margin-top: 1.2rem;
-  padding: 0.6rem;
-  max-height: 200px;
-  overflow-y: auto;
   width: 15px;
-  float: left;
   margin-right: 5px;
+`;
+export const LottoAnswerListUl = styled.div`
+  display: inline-block;
+  flex-direction: column;
+  margin-top: 1.2rem;
+  padding: 0.6rem;
   border: 0.5px solid #e9e2e2;
   border-radius: 5px;
+  width: 15px;
+  margin-right: 5px;
 `;
+
 export const StyledButton = styled.button`
   height: 25px;
   padding: 0 16px;
