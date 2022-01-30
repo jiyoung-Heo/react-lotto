@@ -37,7 +37,7 @@ export const StyledButton = styled.button`
 `;
 export const InputStyle = styled.input`
   height: 18px;
-  width: 300px;
+  width: 20%;
   margin-right: 10px;
   margin-top: 10px;
 `;

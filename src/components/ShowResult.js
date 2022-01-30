@@ -9,6 +9,8 @@ const ShowResult = ({
   setSameCount,
   setAnswerNumber,
   makeRandomNumbers,
+  resultVisable,
+  setResultVisable,
 }) => {
   useEffect(() => {
     rank();
@@ -47,23 +49,25 @@ const ShowResult = ({
       alert("로또를 구매한 후 이용가능합니다.");
       return;
     }
-    e.target.disabled = "disabled";
+    setResultVisable(true);
     setAnswerNumber(makeRandomNumbers());
   };
 
   return (
     <div>
-      <StyledButton onClick={showAnswer}>당첨확인</StyledButton>
+      <StyledButton onClick={showAnswer} disabled={resultVisable}>
+        당첨확인
+      </StyledButton>
       <br />
       <div>
         {answerNumber &&
           answerNumber.map((number) => (
             <LottoAnswerListUl key={number}>{number}</LottoAnswerListUl>
           ))}
+        <div>일치개수: {sameCount}개</div>
+        <div>당첨금액: {winningAmount()}원</div>
       </div>
       <br />
-      <div>일치개수: {sameCount}개</div>
-      <div>당첨금액: {winningAmount()}원</div>
     </div>
   );
 };

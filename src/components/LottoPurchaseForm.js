@@ -23,10 +23,9 @@ const LottoPurchaseForm = ({
 
   return (
     <div>
-      로또
-      <br />
+      <h1>REACT LOTTO</h1>
       <form onSubmit={onSubmit}>
-        <label htmlFor="input-price">구입할 금액을 입력해주세요.</label>
+        <label>구입할 금액을 입력해주세요.</label>
         <div>
           <InputStyle
             placeholder="구매금액을 입력하세요"

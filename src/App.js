@@ -15,6 +15,7 @@ function App() {
   const [visible, setVisible] = useState(false);
   const [sameCount, setSameCount] = useState(0);
   const [disabled, setDisabled] = useState(false);
+  const [resultVisable, setResultVisable] = useState(false);
 
   const makeRandomNumbers = () => {
     let number = [];
@@ -44,8 +45,9 @@ function App() {
       });
 
       console.log("nextId: " + nextId);
+
       setLottoNumber(nextLottoNumber);
-      setNextId(nextId + 1);
+      setNextId((nextId) => nextId + 1);
     }
   };
 
@@ -59,12 +61,14 @@ function App() {
         disabled={disabled}
         setDisabled={setDisabled}
       />
+      <br />
       <MyLottoNumber
         lottoCnt={lottoCnt}
         lottoNumber={lottoNumber}
         visible={visible}
         setVisible={setVisible}
       />
+      <br />
       <ShowResult
         lottoCnt={lottoCnt}
         lottoNumber={lottoNumber}
@@ -73,6 +77,8 @@ function App() {
         setSameCount={setSameCount}
         setAnswerNumber={setAnswerNumber}
         makeRandomNumbers={makeRandomNumbers}
+        resultVisable={resultVisable}
+        setResultVisable={setResultVisable}
       />
       <ResetButton />
     </div>
