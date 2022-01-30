@@ -1,4 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  LottoDetailListUl,
+  LottoAnswerListUl,
+  StyledButton,
+  InputStyle,
+} from "../components/lottostyled.js";
 
 function LottoGame() {
   const [inputMoney, setMoney] = useState("");
@@ -13,13 +19,11 @@ function LottoGame() {
     rank();
   }, [answerNumber]);
 
-  const onClick = (e) => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     const calcCnt = Math.floor(inputMoney / 1000);
     setLottoCnt(() => calcCnt, userNumbers(calcCnt));
     setMoney("");
-
-    e.target.disabled = true;
-    e.target.innerHTML = "발급완료";
   };
 
   const makeRandomNumbers = () => {
@@ -43,6 +47,7 @@ function LottoGame() {
   const userNumbers = (cnt) => {
     for (let k = 0; k < cnt; k++) {
       let number = makeRandomNumbers();
+
       const nextLottoNumber = lottoNumber.concat({
         id: nextId,
         numbers: number,
@@ -56,10 +61,6 @@ function LottoGame() {
 
   const onChangeMoney = (e) => {
     setMoney(e.target.value);
-  };
-
-  const resultClick = () => {
-    setAnswerNumber(makeRandomNumbers());
   };
 
   const rank = () => {
@@ -93,52 +94,66 @@ function LottoGame() {
   const resetLotto = () => {
     window.location.reload();
   };
+  const showAnswer = (e) => {
+    if (lottoCnt === 0) {
+      alert("로또를 구매한 후 이용가능합니다.");
+      return;
+    }
+    e.target.disabled = "disabled";
+    setAnswerNumber(makeRandomNumbers());
+  };
 
   return (
     <div>
       로또
       <br />
-      <br />
-      <input
-        type="number"
-        placeholder="구매금액을 입력하세요"
-        value={inputMoney}
-        onChange={onChangeMoney}
-      />
-      <button id="issued" onClick={onClick}>
-        발급받기
-      </button>
+      <form onSubmit={onSubmit}>
+        <label htmlFor="input-price">구입할 금액을 입력해주세요.</label>
+        <div>
+          <InputStyle
+            placeholder="구매금액을 입력하세요"
+            value={inputMoney}
+            onChange={onChangeMoney}
+          />
+          <StyledButton>발급받기</StyledButton>
+        </div>
+      </form>
       <br />
       발급 개수: {lottoCnt}개
       <br />
-      구매한 로또 내역
-      <br />
-      <button
+      <StyledButton
         onClick={() => {
+          if (lottoCnt === 0) {
+            alert("로또를 구매한 후 이용가능합니다.");
+            return;
+          }
           setVisible(!visible);
         }}
       >
-        {visible ? "숨기기" : "보이기"}
-      </button>
+        {visible ? "구매한 로또 숨기기" : "구매한 로또 보이기"}
+      </StyledButton>
       <div>
         {visible &&
           lottoNumber.map((lottoNum) => (
-            <li key={lottoNum.id}>
-              {lottoNum.id}나열
+            <LottoDetailListUl key={lottoNum.id}>
               {lottoNum.numbers[0]} {lottoNum.numbers[1]} {lottoNum.numbers[2]}{" "}
               {lottoNum.numbers[3]} {lottoNum.numbers[4]} {lottoNum.numbers[5]}
-            </li>
+            </LottoDetailListUl>
           ))}
       </div>
+      <StyledButton onClick={showAnswer}>당첨확인</StyledButton>
       <br />
-      <button onClick={resultClick}>당첨번호 확인하기</button>
-      <ul>
-        {answerNumber.map((number) => (
-          <li key={number}>{number}</li>
-        ))}
-      </ul>
+      {answerNumber.map((number) => (
+        <LottoAnswerListUl key={number}>{number}</LottoAnswerListUl>
+      ))}
+      <br />
       <div>일치개수: {sameCount}개</div>
       <div>당첨금액: {winningAmount()}원</div>
+      <br />
+      <StyledButton onClick={resetLotto}>재시작</StyledButton>
+      <br />
+      <br />
+      ****
       <br />
       로또 당첨 금액 <br />
       1등: 1,513,274,790원 당첨번호 6개 일치
@@ -148,8 +163,6 @@ function LottoGame() {
       4등: 50,000원 당첨번호 4개 일치 <br />
       5등: 5,000원 당첨번호 3개 일치 <br />
       꽝: 당첨번호 3개 미만 일치
-      <br />
-      <button onClick={resetLotto}>재시작</button>
     </div>
   );
 }

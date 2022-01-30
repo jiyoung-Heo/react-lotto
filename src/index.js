@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import LottoGame from "./LottoGame";
+import LottoGame from "./components/LottoGame";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
